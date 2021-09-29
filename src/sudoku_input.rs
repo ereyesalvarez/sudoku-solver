@@ -2,18 +2,14 @@ use std::io::{self, BufRead, Write};
 use std::io::ErrorKind;
 use std::io::Error;
 use owo_colors::OwoColorize;
+
 use crate::sudoku_process::SudokuCell;
 use crate::sudoku_process::SudokuCellType;
 use crate::sudoku_process::create_board;
 
-pub fn startup() -> [[SudokuCell; 9]; 9] {
-  println!("{}","Bienvenido al sudoku resolutor");
-  println!("{}","Introduce los numeros separados por espacios".green());
-  println!("{}","Conjuntos de dos o más espacios  provocaran error.".green());
-  println!("{}","Para indicar un numero no conocido indicar con x.".green());
-  println!("{}","Pulsa enter para saltar de linea, se esperan 9 lineas.".green());
+pub fn read_board() -> [[SudokuCell; 9]; 9] {
   let mut board = create_board();
-  let stdin = io::stdin(); // We get `Stdin` here.
+  let stdin = io::stdin();
   let mut read_lines = 0;
   while read_lines != 9 {
     print!("{}: ", read_lines);
@@ -26,7 +22,7 @@ pub fn startup() -> [[SudokuCell; 9]; 9] {
   return board;
 }
 
-fn process_input_line(arr: &mut [[SudokuCell; 9]; 9], input: String, row :usize){
+pub fn process_input_line(arr: &mut [[SudokuCell; 9]; 9], input: String, row :usize){
   let split = input.split(" ");
   let mut col = 0;
   for s in split {
@@ -44,14 +40,12 @@ fn process_input_line(arr: &mut [[SudokuCell; 9]; 9], input: String, row :usize)
 }
 
 fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
-  println!("valid row");
   for row in arr{
     let mut find = [false; 9];
     for val in row{
       check_valid_numer(val.value, &mut find).unwrap();
     }
   }
-  println!("valid col");
   for i in 0..9{
     let mut find = [false; 9];
     for j in 0..9{
@@ -59,8 +53,6 @@ fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
       check_valid_numer(val.value, &mut find).unwrap();
     }
   }
-  // ToDo: Check if quarters are valid
-  println!("valid quarter");
   for x in 0..3{
     for y in 0..3{
       let mut find = [false; 9];
