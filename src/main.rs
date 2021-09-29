@@ -1,8 +1,13 @@
 mod sudoku_util;
 mod sudoku_input;
+mod sudoku_process;
+
 fn main() {
-  let mut state = [[0u8; 9]; 9];
-  sudoku_input::startup(&mut state);
+  let mut board = sudoku_input::startup();
   print!("{esc}c", esc = 27 as char);
-  sudoku_util::print(state);
+  sudoku_util::print(board);
 }
+
+
+#[cfg(test)]
+mod sudoku_test;
