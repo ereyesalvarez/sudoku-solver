@@ -1,5 +1,5 @@
-use core::time;
-use std::thread;
+use std::{thread, time};
+use std::time::Duration;
 use crate::sudoku_process::SudokuCell;
 use crate::sudoku_process::SudokuCellType;
 use owo_colors::OwoColorize;
@@ -100,6 +100,12 @@ pub fn print_full_board(board: [[SudokuCell; 9]; 9]) {
   print_full_line_hard();
 }
 
+
+pub fn print_full_board_info(board: [[SudokuCell; 9]; 9], n: isize, d: Duration) {
+  print_full_board(board);
+  print_inf(n, d);
+}
+
 fn print_full_cell(cell: SudokuCell, part: u8) {
   if cell.cell_type == SudokuCellType::Fixed || cell.cell_type == SudokuCellType::Guess {
     if part == 0 || part == 2 {
@@ -145,6 +151,10 @@ pub fn calculate_quarter(x: usize, y: usize) -> usize {
 }
 
 pub fn sleep_time(){
-  let time = time::Duration::from_secs(10);
+  let time = time::Duration::from_secs(3);
   thread::sleep(time);
+}
+
+pub fn print_inf(n: isize, d: Duration){
+  println!("step: {}, duration_total: {}", n, d.as_millis())
 }

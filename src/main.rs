@@ -1,5 +1,8 @@
+use std::time;
+use std::time::Duration;
 use crate::sudoku_possibles::reset_possibles;
-use crate::sudoku_util::{print_full_board, print_possibles};
+use crate::sudoku_resolve::is_finis;
+use crate::sudoku_util::{print_full_board, print_full_board_info, print_inf, print_possibles};
 
 mod sudoku_util;
 mod sudoku_input;
@@ -12,15 +15,30 @@ mod sudoku_possibles;
 fn main() {
   sudoku_game::print_intro();
   let mut board = sudoku_mock::fake();
-  print!("{esc}c", esc = 27 as char);
   let mut possibles = reset_possibles();
+  print!("{esc}c", esc = 27 as char);
+  let mut steps = 0;
+  let mut d = Duration::from_secs(0);
   print_full_board(board);
   sudoku_util::sleep_time();
   loop {
+    let now = time::Instant::now();
     sudoku_resolve::clear_possibles(&mut board, &mut possibles);
-    print_full_board(board);
+    d += now.elapsed();
+    print_full_board_info(board, steps, d);
+    let now = time::Instant::now();
     sudoku_resolve::resolve(&mut board);
+    d += now.elapsed();
+    print_full_board_info(board, steps, d);
     sudoku_util::sleep_time();
+    if is_finis(board){
+      print!("{esc}c", esc = 27 as char);
+      println!("-------WINNNNNNNNNNN-----");
+      break;
+    }
+    print_possibles(possibles);
+    sudoku_util::sleep_time();
+    steps += 1;
   }
 }
 

@@ -46,7 +46,6 @@ pub fn remove_from_board(x: usize, y: usize, n: usize, board: &mut [[SudokuCell;
   // remove quarters
 }
 
-
 pub fn remove_from_quarter(x: usize, y: usize, n: usize, board: &mut [[SudokuCell; 9]; 9]) {
   let sx = (x) / 3;
   let sy = (y) / 3;
@@ -61,3 +60,13 @@ pub fn remove_from_quarter(x: usize, y: usize, n: usize, board: &mut [[SudokuCel
   println!();
 }
 
+pub fn is_finis(board: [[SudokuCell; 9]; 9]) -> bool{
+  for row in board {
+    for cell in row {
+      if cell.cell_type == SudokuCellType::Empty {
+        return false;
+      }
+    }
+  }
+  return true;
+}

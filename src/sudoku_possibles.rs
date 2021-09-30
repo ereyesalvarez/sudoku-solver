@@ -1,5 +1,6 @@
 use crate::sudoku_util::calculate_quarter;
 
+#[derive(Copy, Clone)]
 pub struct SudokuPossibles {
   pub row: [[bool; 9]; 9],
   pub col: [[bool; 9]; 9],
