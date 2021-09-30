@@ -1,9 +1,49 @@
-use owo_colors::OwoColorize;
+use crate::solve_steps::{do_step, StepEnum};
+use crate::sudoku_gui::{ask_for_options, print_full_board_clean, print_full_board_clean_and_info, print_intro};
+use crate::sudoku_mock::fake;
+use crate::sudoku_types::{SudokuBoard, SudokuOptions};
+use crate::sudoku_validate::{check_valid_sudoku};
 
-pub fn print_intro(){
-    println!("{}","Bienvenido al sudoku resolutor");
-    println!("{}","Introduce los numeros separados por espacios".green());
-    println!("{}","Conjuntos de dos o más espacios  provocaran error.".green());
-    println!("{}","Para indicar un numero no conocido indicar con x.".green());
-    println!("{}","Pulsa enter para saltar de linea, se esperan 9 lineas.".green());
+pub fn game() {
+    let opt = start_game();
+    let mut board = load_board(opt);
+    print_full_board_clean(board, opt);
+    let mut iteration = 0;
+    let mut repeat_step = true;
+    while repeat_step {
+        board = make_iterate(board, opt);
+        iteration += 1;
+        if iteration > 10 {
+            repeat_step = false;
+        }
+    }
+    let remaining =board.get_remaining_cells();
+    print_full_board_clean_and_info(board, opt, iteration, remaining);
+    let (valid, invalid_x, invalid_y) = check_valid_sudoku(board);
+    if !valid {
+        panic!("Invalid sudoku on pos x: {}, y: {}", invalid_x, invalid_y);
+    }
+    if remaining == 0 {
+        return;
+    }
 }
+
+pub fn make_iterate(board: SudokuBoard, opt: SudokuOptions) -> SudokuBoard {
+    let board = do_step(board, opt, StepEnum::Pinned);
+    let board = do_step(board, opt, StepEnum::LastRemain);
+    let board = do_step(board, opt, StepEnum::NakedSingle);
+    let board = do_step(board, opt, StepEnum::Naked);
+    let board = do_step(board, opt, StepEnum::Hidden);
+    let board = do_step(board, opt, StepEnum::IntersectionRemove);
+    return board;
+}
+
+pub fn start_game() -> SudokuOptions {
+    print_intro();
+    return ask_for_options();
+}
+
+pub fn load_board(opt: SudokuOptions) -> SudokuBoard {
+    return fake();
+}
+
