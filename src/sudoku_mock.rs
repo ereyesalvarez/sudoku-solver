@@ -6,9 +6,6 @@ pub fn fake() -> [[SudokuCell; 9]; 9] {
   return fake3();
 }
 fn fake1() -> [[SudokuCell; 9]; 9] {
-  let mut board = create_board();
-  // input, x, y,
-  //     process_input_line(&mut board, String::from("9 x x x x x x x x"), 0);
   let input = "\
 9 x 1 x 7 x x x x \n\
 7 x x 9 1 x 4 x x \n\
@@ -41,9 +38,6 @@ fn fake2() -> [[SudokuCell; 9]; 9] {
 }
 
 fn fake3() -> [[SudokuCell; 9]; 9] {
-  let mut board = create_board();
-  // input, x, y,
-  //     process_input_line(&mut board, String::from("9 x x x x x x x x"), 0);
   let input = "\
 2 x x 7 1 x 9 4 x \n\
 x x x x 3 x x 2 x \n\
