@@ -36,7 +36,7 @@ pub fn process_input_line(arr: &mut [[SudokuCell; 9]; 9], input: String, row :us
   }
 }
 
-fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
+pub fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
   for row in arr{
     let mut find = [false; 9];
     for val in row{
@@ -57,7 +57,6 @@ fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
         for n2 in 0..3 {
           let aux_x = x * 3 + n;
           let aux_y = y * 3 + n2;
-          print!("quarter {}, {}", aux_x, aux_y);
           let val = arr[aux_x][aux_y];
           check_valid_number(val.value, &mut find).unwrap();
           }

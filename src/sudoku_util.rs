@@ -10,6 +10,7 @@ pub fn set_guess(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize
     if board[x][y].cell_type == SudokuCellType::Empty {
       board[x][y].value = input;
       board[x][y].cell_type = SudokuCellType::Guess;
+      board[x][y].possibles = [false; 9];
     }
   }
 }
@@ -46,7 +47,6 @@ pub fn print_possibles(input: SudokuPossibles) {
 }
 
 pub fn print_full_board(board: [[SudokuCell; 9]; 9]) {
-  print!("{esc}c", esc = 27 as char);
   for row in 0..9 {
     if row == 0 || row == 3 || row == 6 {
       print_full_line_hard();
@@ -70,11 +70,13 @@ pub fn print_full_board(board: [[SudokuCell; 9]; 9]) {
 
 
 pub fn print_full_board_info(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, data: String) {
+  print!("{esc}c", esc = 27 as char);
   print_full_board(board);
   print_inf(n, d, data);
 }
 
 fn print_full_cell(cell: SudokuCell, part: u8) {
+  let print_options = true;
   if cell.cell_type == SudokuCellType::Fixed || cell.cell_type == SudokuCellType::Guess {
     if part == 0 || part == 2 {
       print!("     ")
@@ -82,7 +84,7 @@ fn print_full_cell(cell: SudokuCell, part: u8) {
       if cell.cell_type == SudokuCellType::Fixed {
         print!("  {}  ", cell.value.purple())
       } else {
-        print!("  {}  ", cell.value.red())
+        print!("  {}  ", cell.value.white())
       }
     }
   } else {
@@ -99,10 +101,13 @@ fn print_full_cell(cell: SudokuCell, part: u8) {
     if cell.possibles[init + 2] {
       c = (init + 3).to_string();
     }
-    let string_formatted = format!("{} {} {}", a, b, c);
-    //let string_formatted = format!("     ");
-
-    print!("{}", string_formatted.cyan())
+    if print_options {
+      let string_formatted = format!("{} {} {}", a, b, c);
+      print!("{}", string_formatted.cyan())
+    } else {
+      let string_formatted = format!("     ");
+      print!("{}", string_formatted.cyan())
+    }
   }
 }
 
@@ -121,7 +126,7 @@ pub fn calculate_quarter(x: usize, y: usize) -> usize {
 }
 
 pub fn sleep_time() {
-  let time = time::Duration::from_millis(700);
+  let time = time::Duration::from_millis(3000);
   thread::sleep(time);
 }
 

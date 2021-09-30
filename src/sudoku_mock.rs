@@ -3,7 +3,7 @@ use crate::sudoku_process::create_board;
 use crate::sudoku_process::SudokuCell;
 
 pub fn fake() -> [[SudokuCell; 9]; 9] {
-  return fake3();
+  return fake5();
 }
 fn fake1() -> [[SudokuCell; 9]; 9] {
   let input = "\
@@ -48,6 +48,37 @@ x x 2 x x x 8 x x \n\
 7 x x 1 x x x 8 4 \n\
 x 1 x x 5 x x x x \n\
 x 2 4 x 6 7 x x 5 \n\
+";
+  return process_text(String::from(input));
+}
+
+
+fn fake4() -> [[SudokuCell; 9]; 9] {
+  let input = "\
+x 7 8 5 x x 9 x x \n\
+1 6 x 7 9 x x x x \n\
+2 x x x x 3 x 6 x \n\
+x x 6 x x x x x x \n\
+8 x 4 6 x 5 1 x 7 \n\
+x x x x x x 8 x x \n\
+x 8 x 1 x x x x 9 \n\
+x x x x 5 9 x 1 2 \n\
+x x 1 x x 4 6 8 x \n\
+";
+  return process_text(String::from(input));
+}
+
+fn fake5() -> [[SudokuCell; 9]; 9] {
+  let input = "\
+x x 7 4 x x x x x \n\
+1 x x x x x x x 7 \n\
+x x x 9 x x x 8 x \n\
+x x x x x x x 9 8 \n\
+x 4 x x 6 5 x 3 x \n\
+3 x 8 x 2 x x x x \n\
+4 x x x x x x x x \n\
+2 x x 5 x x 3 x x \n\
+x x 1 7 x 3 x 5 x \n\
 ";
   return process_text(String::from(input));
 }
