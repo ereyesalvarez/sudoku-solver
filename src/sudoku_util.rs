@@ -84,7 +84,7 @@ fn print_full_cell(cell: SudokuCell, part: u8) {
       if cell.cell_type == SudokuCellType::Fixed {
         print!("  {}  ", cell.value.purple())
       } else {
-        print!("  {}  ", cell.value.white())
+        print!("  {}  ", cell.value.yellow())
       }
     }
   } else {

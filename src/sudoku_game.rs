@@ -1,5 +1,12 @@
 use owo_colors::OwoColorize;
 
+pub enum SudokuStep {
+    ClearBoard,
+    ClearByTuple,
+    ResolveDirect,
+    ResolveInfer
+}
+
 pub fn print_intro(){
     println!("{}","Bienvenido al sudoku resolutor");
     println!("{}","Introduce los numeros separados por espacios".green());

@@ -3,7 +3,8 @@ use std::io::BufRead;
 use std::time::Duration;
 use crate::sudoku_input::check_valid_sudoku;
 use crate::sudoku_possibles::reset_possibles;
-use crate::sudoku_process::SudokuCell;
+use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_game::{SudokuStep};
 use crate::sudoku_resolve::is_finis;
 use crate::sudoku_util::{print_full_board, print_full_board_info, print_possibles};
 
@@ -22,12 +23,10 @@ fn main() {
   let mut last_remain = 1000;
   sudoku_game::print_intro();
   let mut board = sudoku_mock::fake();
-  let mut possibles = reset_possibles();
   print!("{esc}c", esc = 27 as char);
   let mut steps = 0;
   let mut d = Duration::from_secs(0);
-  d += do_step(&mut board, 1);
-  print_and_sleep(board, steps, d, 9999, 1);
+  d += do_complete_step(&mut board, steps, d, SudokuStep::ClearBoard);
   let mut remaining = 99;
   loop {
     remaining = is_finis(board);
@@ -47,16 +46,27 @@ fn main() {
       idle_iterations = 0;
     }
     last_remain = remaining;
-    d += do_step(&mut board, 2);
-    print_and_sleep(board, steps, d, remaining, 2);
-    d += do_step(&mut board, 1);
-    print_and_sleep(board, steps, d, remaining, 1);
-    d += do_step(&mut board, 3);
-    print_and_sleep(board, steps, d, remaining, 3);
-    d += do_step(&mut board, 4);
-    print_and_sleep(board, steps, d, remaining, 4);
+    d += do_complete_step(&mut board, steps, d, SudokuStep::ClearByTuple);
+    d += do_complete_step(&mut board, steps, d, SudokuStep::ResolveDirect);
+    d += do_complete_step(&mut board, steps, d, SudokuStep::ClearBoard);
+    d += do_complete_step(&mut board, steps, d, SudokuStep::ResolveInfer);
+    d += do_complete_step(&mut board, steps, d, SudokuStep::ClearBoard);
     steps += 1;
   }
+}
+
+fn do_complete_step(board: &mut [[SudokuCell; 9]; 9], n: isize, d: Duration, n_step: SudokuStep) -> Duration {
+  let mut i :u8 = 0;
+  match n_step {
+    SudokuStep::ClearBoard => i = 1,
+    SudokuStep::ClearByTuple => i = 2,
+    SudokuStep::ResolveDirect => i = 3,
+    SudokuStep::ResolveInfer => i = 4
+  }
+  let d1 = do_step(board, i);
+  let remaining = is_finis(*board);
+  print_and_sleep(*board, n as isize, d + d1, remaining, i );
+  return d1;
 }
 
 fn print_and_sleep(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, remaining: i32, n_step: u8) {
