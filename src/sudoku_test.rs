@@ -57,3 +57,18 @@ fn set_guess_test() {
         index += 1;
     }
 }
+
+#[test]
+fn calculate_quarter_test() {
+    assert_calculate_quarter(0, 0, 0);
+    assert_calculate_quarter(1, 1, 0);
+    assert_calculate_quarter(2, 2, 0);
+    assert_calculate_quarter(3, 0, 3);
+    assert_calculate_quarter(8, 8, 8);
+    assert_calculate_quarter(5, 8, 5);
+}
+
+fn assert_calculate_quarter(x: usize, y: usize, expected: usize){
+    let result = calculate_quarter(x, y);
+    assert_eq!(result, expected, "values don't match");
+}

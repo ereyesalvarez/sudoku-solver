@@ -4,8 +4,8 @@ use std::io::Error;
 use owo_colors::OwoColorize;
 
 use crate::sudoku_process::SudokuCell;
-use crate::sudoku_process::SudokuCellType;
 use crate::sudoku_process::create_board;
+use crate::sudoku_util::set_val;
 
 pub fn read_board() -> [[SudokuCell; 9]; 9] {
   let mut board = create_board();
@@ -30,10 +30,7 @@ pub fn process_input_line(arr: &mut [[SudokuCell; 9]; 9], input: String, row :us
     } 
     else {
       let number: u8 = s.parse().expect("Not a number!");
-      if number <= 9 {
-        arr[row][col].value = number;
-        arr[row][col].cell_type = SudokuCellType::Fixed;
-      }
+      set_val(arr, number, row, col);
     }
     col += 1;
   }
@@ -43,14 +40,14 @@ fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
   for row in arr{
     let mut find = [false; 9];
     for val in row{
-      check_valid_numer(val.value, &mut find).unwrap();
+      check_valid_number(val.value, &mut find).unwrap();
     }
   }
   for i in 0..9{
     let mut find = [false; 9];
     for j in 0..9{
       let val = arr[j][i];
-      check_valid_numer(val.value, &mut find).unwrap();
+      check_valid_number(val.value, &mut find).unwrap();
     }
   }
   for x in 0..3{
@@ -62,16 +59,16 @@ fn check_valid_sudoku(arr: [[SudokuCell; 9]; 9]) -> Result<(), io::Error>{
           let aux_y = y * 3 + n2;
           print!("quarter {}, {}", aux_x, aux_y);
           let val = arr[aux_x][aux_y];
-          check_valid_numer(val.value, &mut find).unwrap();
+          check_valid_number(val.value, &mut find).unwrap();
           }
         }
       }
-      println!("");
+      println!();
     }
   Ok(())
 }
 
-fn check_valid_numer (value: u8, find:  &mut [bool; 9])  -> Result<(), io::Error>{
+fn check_valid_number(value: u8, find:  &mut [bool; 9]) -> Result<(), io::Error>{
   if value != 0 {
     if value > 9 {
       println!("{}", "number not valid > 9".red());
