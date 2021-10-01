@@ -25,7 +25,7 @@ pub fn set_val(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize) 
   set_cell_value(board, input, x, y, false);
 }
 
-pub fn calculate_quarter(x: usize, y: usize) -> usize {
+pub fn _calculate_quarter(x: usize, y: usize) -> usize {
   let a = x / 3;
   let b = y / 3;
   return a * 3 + b;

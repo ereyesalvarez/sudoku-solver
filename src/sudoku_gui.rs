@@ -39,7 +39,7 @@ pub fn print_intro() {
 }
 
 fn print_inf(n: isize, d: Duration, data: String) {
-  println!("step: {}, duration_total: {} - {}", n, d.as_millis(), data)
+  println!("step: {}, process_duration: {} - {}", n, d.as_millis(), data)
 }
 
 fn print_full_board(board: [[SudokuCell; 9]; 9]) {

@@ -1,6 +1,5 @@
 
 use crate::sudoku_process::{SudokuCell, SudokuCellType};
-use crate::sudoku_util::set_guess;
 
 mod resolve_infer;
 mod resolve_direct;

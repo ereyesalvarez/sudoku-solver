@@ -69,6 +69,6 @@ fn calculate_quarter_test() {
 }
 
 fn assert_calculate_quarter(x: usize, y: usize, expected: usize){
-    let result = calculate_quarter(x, y);
+    let result = _calculate_quarter(x, y);
     assert_eq!(result, expected, "values don't match");
 }

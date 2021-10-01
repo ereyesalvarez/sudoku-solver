@@ -16,11 +16,12 @@ pub enum SudokuStep {
 }
 
 pub fn play() {
+  let opt_print_steps = false;
   print_intro();
   let mut board = sudoku_mock::fake();
   let mut steps = 0;
   let mut d = Duration::from_secs(0);
-  d += do_complete_step(&mut board, steps, d, SudokuStep::ClearBoard);
+  d += do_complete_step(&mut board, steps, d, SudokuStep::ClearBoard, opt_print_steps);
   loop {
     let remaining = is_finish(board);
     check_valid_sudoku(board).unwrap();
@@ -28,21 +29,21 @@ pub fn play() {
       print_full_board_info(board, steps, d, format!("WINNNNNN!!!"));
       break;
     }
-    d = play_step(&mut board, steps, d);
+    d = play_step(&mut board, steps, d, opt_print_steps);
     steps += 1;
   }
 }
 
-fn play_step(board: &mut [[SudokuCell; 9]; 9], step: isize, mut d: Duration) -> Duration {
-  d += do_complete_step(board, step, d, SudokuStep::ResolveDirect);
-  d += do_complete_step(board, step, d, SudokuStep::ResolveInfer);
-  d += do_complete_step(board, step, d, SudokuStep::ClearBoard);
-  d += do_complete_step(board, step, d, SudokuStep::ClearByTuple);
-  d += do_complete_step(board, step, d, SudokuStep::ClearByQuarterConstrain);
+fn play_step(board: &mut [[SudokuCell; 9]; 9], step: isize, mut d: Duration, opt_print_steps: bool) -> Duration {
+  d += do_complete_step(board, step, d, SudokuStep::ResolveDirect, opt_print_steps);
+  d += do_complete_step(board, step, d, SudokuStep::ResolveInfer, opt_print_steps);
+  d += do_complete_step(board, step, d, SudokuStep::ClearBoard, opt_print_steps);
+  d += do_complete_step(board, step, d, SudokuStep::ClearByTuple, opt_print_steps);
+  d += do_complete_step(board, step, d, SudokuStep::ClearByQuarterConstrain, opt_print_steps);
   return d;
 }
 
-fn do_complete_step(board: &mut [[SudokuCell; 9]; 9], n: isize, d: Duration, n_step: SudokuStep) -> Duration {
+fn do_complete_step(board: &mut [[SudokuCell; 9]; 9], n: isize, d: Duration, n_step: SudokuStep, print: bool) -> Duration {
   let i: u8;
   match n_step {
     SudokuStep::ClearBoard => i = 1,
@@ -53,8 +54,10 @@ fn do_complete_step(board: &mut [[SudokuCell; 9]; 9], n: isize, d: Duration, n_s
 
   }
   let d1 = do_step(board, i);
-  let remaining = is_finish(*board);
-  // print_and_wait(*board, n as isize, d + d1, remaining, i);
+  if print {
+    let remaining = is_finish(*board);
+    print_and_wait(*board, n as isize, d + d1, remaining, i);
+  }
   return d1;
 }
 
