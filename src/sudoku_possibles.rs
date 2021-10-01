@@ -22,5 +22,26 @@ pub fn remove_from_possibles(x: usize, y: usize, n: usize, input: &mut SudokuPos
 }
 
 fn rm_possible_double(i: usize, n: usize, array: &mut [[bool; 9]; 9]) {
-  array[i][n-1] = false;
+  array[i][n - 1] = false;
+}
+
+pub fn print_possibles(input: SudokuPossibles) {
+  println!("rows");
+  print_possible_item(input.row);
+  println!("cols");
+  print_possible_item(input.row);
+  println!("quarters");
+  print_possible_item(input.quarter);
+}
+
+fn print_possible_item(input: [[bool; 9]; 9]) {
+  for i in 0..9 {
+    print!("{}: ", i);
+    for n in 0..9 {
+      if input[i][n] {
+        print!("{} ", (n + 1))
+      }
+    }
+    println!();
+  }
 }

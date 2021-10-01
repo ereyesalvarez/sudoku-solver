@@ -5,7 +5,7 @@ use crate::sudoku_process::SudokuCell;
 pub fn fake() -> [[SudokuCell; 9]; 9] {
   return fake5();
 }
-fn fake1() -> [[SudokuCell; 9]; 9] {
+fn _fake1() -> [[SudokuCell; 9]; 9] {
   let input = "\
 9 x 1 x 7 x x x x \n\
 7 x x 9 1 x 4 x x \n\
@@ -20,7 +20,7 @@ x 9 3 7 x x x x 4 \n\
   return process_text(String::from(input));
 }
 
-fn fake2() -> [[SudokuCell; 9]; 9] {
+fn _fake2() -> [[SudokuCell; 9]; 9] {
   let mut board = create_board();
   // input, x, y,
   process_input_line(&mut board, String::from("9 x x x 8 2 5"), 0);
@@ -37,7 +37,7 @@ fn fake2() -> [[SudokuCell; 9]; 9] {
   return board;
 }
 
-fn fake3() -> [[SudokuCell; 9]; 9] {
+fn _fake3() -> [[SudokuCell; 9]; 9] {
   let input = "\
 2 x x 7 1 x 9 4 x \n\
 x x x x 3 x x 2 x \n\
@@ -53,7 +53,7 @@ x 2 4 x 6 7 x x 5 \n\
 }
 
 
-fn fake4() -> [[SudokuCell; 9]; 9] {
+fn _fake4() -> [[SudokuCell; 9]; 9] {
   let input = "\
 x 7 8 5 x x 9 x x \n\
 1 6 x 7 9 x x x x \n\

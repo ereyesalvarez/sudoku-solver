@@ -1,4 +1,3 @@
-use std::ops::Range;
 use crate::sudoku_process::{SudokuCell, SudokuCellType};
 
 pub fn get_numbers_from_cell(cell: SudokuCell) -> Vec<usize> {
@@ -26,27 +25,12 @@ pub fn check_if_occurrence(cell: SudokuCell, vector: &Vec<usize>) -> bool {
   return response;
 }
 
-pub fn check_same_subsegment(a: usize, b: usize) -> bool{
+pub fn get_range_invert_from_n(a: usize) -> Vec<usize> {
   if a < 3 {
-    return b < 3;
-  }
-  if a < 6 {
-    return b < 6
-  }
-  if a < 9 {
-    return b < 9
-  }
-  return false;
-}
-
-pub fn get_range_from_n(a: usize) -> Vec<usize> {
-  if a < 3 {
-    if a == 0 {
       return (3..9).collect();
-    }
   }
   if a < 6 {
-    let mut response: Vec<usize> = [(0..3).collect::<Vec<_>>(), (6..9).collect::<Vec<_>>()].concat();
+    let response: Vec<usize> = [(0..3).collect::<Vec<_>>(), (6..9).collect::<Vec<_>>()].concat();
     return response;
   }
   if a < 9 {
@@ -54,3 +38,23 @@ pub fn get_range_from_n(a: usize) -> Vec<usize> {
   }
   return (0..0).collect();
 }
+
+
+pub fn get_range_from_n(a: usize) -> Vec<usize> {
+  if a < 3 {
+    return (0..3).collect();
+  }
+  if a < 6 {
+    return (3..6).collect();
+  }
+  if a < 9 {
+    return (6..9).collect();
+  }
+  return (0..0).collect();
+}
+
+pub fn is_cell_possible_present(cell: SudokuCell, n: isize) -> bool{
+  let index = (n - 1) as usize;
+  return cell.possibles[index];
+}
+
