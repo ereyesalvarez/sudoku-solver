@@ -1,4 +1,4 @@
-use crate::sudoku_process::SudokuCell;
+use crate::sudoku_types::SudokuCell;
 use crate::sudoku_util::set_guess;
 
 pub fn resolve_infer(board: &mut [[SudokuCell; 9]; 9]) {

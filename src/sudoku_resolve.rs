@@ -1,5 +1,5 @@
 
-use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
 mod resolve_infer;
 mod resolve_direct;

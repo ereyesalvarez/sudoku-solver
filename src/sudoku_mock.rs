@@ -1,6 +1,6 @@
 use crate::sudoku_input::process_input_line;
 use crate::sudoku_process::create_board;
-use crate::sudoku_process::SudokuCell;
+use crate::sudoku_types::SudokuCell;
 
 pub fn fake() -> [[SudokuCell; 9]; 9] {
   return fake5();

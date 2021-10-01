@@ -1,4 +1,4 @@
-use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
 pub fn clear_board(board: &mut [[SudokuCell; 9]; 9]) {
   for x in 0..9 {

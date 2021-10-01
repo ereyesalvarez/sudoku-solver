@@ -4,7 +4,7 @@ use std::time::Duration;
 
 use owo_colors::OwoColorize;
 
-use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
 pub fn print_and_wait(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, remaining: i32, n_step: u8) {
   let mut s = format!("{}", remaining);

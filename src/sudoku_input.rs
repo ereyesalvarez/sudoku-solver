@@ -3,7 +3,7 @@ use std::io::Error;
 use std::io::ErrorKind;
 
 use crate::sudoku_process::create_board;
-use crate::sudoku_process::SudokuCell;
+use crate::sudoku_types::SudokuCell;
 use crate::sudoku_util::set_val;
 
 pub fn _read_board() -> [[SudokuCell; 9]; 9] {

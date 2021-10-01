@@ -1,4 +1,4 @@
-use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 use crate::sudoku_resolve::resolve_util::{get_range_from_n, is_cell_possible_present};
 
 pub fn clean_by_quarter_constrain(board: &mut [[SudokuCell; 9]; 9]) {

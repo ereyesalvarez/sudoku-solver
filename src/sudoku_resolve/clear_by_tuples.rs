@@ -1,4 +1,4 @@
-use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 use crate::sudoku_resolve::resolve_util::{check_if_occurrence, get_numbers_from_cell, get_range_invert_from_n};
 
 pub fn clean_by_tuples(board: &mut [[SudokuCell; 9]; 9]) {

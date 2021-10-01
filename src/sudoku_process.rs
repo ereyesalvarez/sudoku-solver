@@ -1,16 +1,4 @@
-#[derive(Copy, Clone)]
-pub struct SudokuCell {
-  pub value: u8,
-  pub cell_type: SudokuCellType,
-  pub possibles: [bool; 9],
-}
-
-#[derive(Copy, Clone, Eq, PartialEq)]
-pub enum SudokuCellType {
-  Empty,
-  Fixed,
-  Guess,
-}
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
 pub fn create_board() -> [[SudokuCell; 9]; 9] {
   let cell = SudokuCell {

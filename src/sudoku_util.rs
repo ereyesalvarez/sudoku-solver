@@ -1,7 +1,6 @@
 use std::{thread, time};
 
-use crate::sudoku_process::SudokuCell;
-use crate::sudoku_process::SudokuCellType;
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
 fn set_cell_value(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize, is_guess: bool) {
   if input <= 9 {

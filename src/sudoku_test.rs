@@ -1,4 +1,4 @@
-use super::*;
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 use super::sudoku_process::*;
 use super::sudoku_util::*;
 

@@ -1,4 +1,4 @@
-use crate::sudoku_process::{SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
 pub fn get_numbers_from_cell(cell: SudokuCell) -> Vec<usize> {
   let mut vector = vec![];
