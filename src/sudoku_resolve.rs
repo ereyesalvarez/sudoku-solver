@@ -1,7 +1,5 @@
+
 use crate::sudoku_process::{SudokuCell, SudokuCellType};
-use crate::sudoku_resolve_util::check_if_occurrence;
-use crate::sudoku_resolve_util::get_numbers_from_cell;
-use crate::sudoku_resolve_util::get_range_invert_from_n;
 use crate::sudoku_util::set_guess;
 
 mod resolve_infer;
@@ -9,6 +7,7 @@ mod resolve_direct;
 mod clear_board;
 mod clear_by_tuples;
 mod clear_by_constrain;
+mod resolve_util;
 
 pub fn resolve_infer(board: &mut [[SudokuCell; 9]; 9]){
   resolve_infer::resolve_infer(board);

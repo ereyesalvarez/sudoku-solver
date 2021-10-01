@@ -1,25 +1,28 @@
 use std::{thread, time};
+
 use crate::sudoku_process::SudokuCell;
 use crate::sudoku_process::SudokuCellType;
 
-pub fn set_guess(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize) {
+fn set_cell_value(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize, is_guess: bool) {
   if input <= 9 {
     if board[x][y].cell_type == SudokuCellType::Empty {
       board[x][y].value = input;
-      board[x][y].cell_type = SudokuCellType::Guess;
+      if is_guess {
+        board[x][y].cell_type = SudokuCellType::Guess;
+      } else {
+        board[x][y].cell_type = SudokuCellType::Fixed;
+      }
       board[x][y].possibles = [false; 9];
     }
   }
 }
 
+pub fn set_guess(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize) {
+  set_cell_value(board, input, x, y, true);
+}
+
 pub fn set_val(board: &mut [[SudokuCell; 9]; 9], input: u8, x: usize, y: usize) {
-  if input <= 9 {
-    if board[x][y].cell_type == SudokuCellType::Empty {
-      board[x][y].value = input;
-      board[x][y].cell_type = SudokuCellType::Fixed;
-      board[x][y].possibles = [false; 9];
-    }
-  }
+  set_cell_value(board, input, x, y, false);
 }
 
 pub fn calculate_quarter(x: usize, y: usize) -> usize {

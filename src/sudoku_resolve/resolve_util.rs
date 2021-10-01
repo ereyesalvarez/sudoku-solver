@@ -12,7 +12,7 @@ pub fn get_numbers_from_cell(cell: SudokuCell) -> Vec<usize> {
 
 pub fn check_if_occurrence(cell: SudokuCell, vector: &Vec<usize>) -> bool {
   let mut response = true;
-  if cell.cell_type != SudokuCellType::Empty{
+  if cell.cell_type != SudokuCellType::Empty {
     return false;
   }
   for i in 0..9 {
@@ -27,7 +27,7 @@ pub fn check_if_occurrence(cell: SudokuCell, vector: &Vec<usize>) -> bool {
 
 pub fn get_range_invert_from_n(a: usize) -> Vec<usize> {
   if a < 3 {
-      return (3..9).collect();
+    return (3..9).collect();
   }
   if a < 6 {
     let response: Vec<usize> = [(0..3).collect::<Vec<_>>(), (6..9).collect::<Vec<_>>()].concat();
@@ -38,7 +38,6 @@ pub fn get_range_invert_from_n(a: usize) -> Vec<usize> {
   }
   return (0..0).collect();
 }
-
 
 pub fn get_range_from_n(a: usize) -> Vec<usize> {
   if a < 3 {
@@ -53,7 +52,7 @@ pub fn get_range_from_n(a: usize) -> Vec<usize> {
   return (0..0).collect();
 }
 
-pub fn is_cell_possible_present(cell: SudokuCell, n: isize) -> bool{
+pub fn is_cell_possible_present(cell: SudokuCell, n: isize) -> bool {
   let index = (n - 1) as usize;
   return cell.possibles[index];
 }

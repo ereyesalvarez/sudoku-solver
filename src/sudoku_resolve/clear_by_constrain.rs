@@ -1,7 +1,6 @@
 use crate::sudoku_mock::fake;
-use crate::sudoku_possibles::{print_possibles, remove_from_possibles, reset_possibles, SudokuPossibles};
 use crate::sudoku_process::{SudokuCell, SudokuCellType};
-use crate::sudoku_resolve_util::{get_range_from_n, get_range_invert_from_n, is_cell_possible_present};
+use crate::sudoku_resolve::resolve_util::{get_range_from_n, get_range_invert_from_n, is_cell_possible_present};
 
 pub fn clean_by_quarter_constrain(board: &mut [[SudokuCell; 9]; 9]) {
   // Identificar donde hay en una fila / columna un numero contraido a un solo quarter
