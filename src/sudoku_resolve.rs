@@ -7,6 +7,8 @@ mod clear_board;
 mod clear_by_tuples;
 mod clear_by_constrain;
 mod resolve_util;
+mod clean_hide;
+mod utils_clear;
 
 pub fn resolve_infer(board: &mut [[SudokuCell; 9]; 9]){
   resolve_infer::resolve_infer(board);
@@ -18,6 +20,10 @@ pub fn resolve_direct(board: &mut [[SudokuCell; 9]; 9]) {
 
 pub fn clear_board(board: &mut [[SudokuCell; 9]; 9]) {
   clear_board::clear_board(board);
+}
+
+pub fn clear_hide(board: &mut [[SudokuCell; 9]; 9]) {
+  clean_hide::clean_hide(board);
 }
 
 pub fn clean_by_tuples(board: &mut [[SudokuCell; 9]; 9]) {
@@ -38,5 +44,6 @@ pub fn is_finish(board: [[SudokuCell; 9]; 9]) -> i32 {
 
 pub fn clean_by_quarter_constrain(board: &mut [[SudokuCell; 9]; 9]) {
   // Necesitamos montar el tema de las posibilidades
-  clear_by_constrain::clean_by_quarter_constrain(board);
+  clear_by_constrain::clean_by_quarter_constrain_col(board);
+  clear_by_constrain::clean_by_quarter_constrain_row(board);
 }

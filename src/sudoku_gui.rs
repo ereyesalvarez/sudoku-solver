@@ -1,21 +1,38 @@
 use std::io;
-use std::io::BufRead;
+use std::io::{BufRead, Write};
+use std::prelude::v1::String;
 use std::time::Duration;
 
 use owo_colors::OwoColorize;
 
+use crate::sudoku_input::{check_valid_sudoku, process_input_line};
+use crate::sudoku_process::create_board;
 use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
-pub fn print_and_wait(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, remaining: i32, n_step: u8) {
-  let mut s = format!("{}", remaining);
-  match n_step {
-    1 => s = format!("{} clear board", remaining),
-    2 => s = format!("{} sudoku_resolve direct", remaining),
-    3 => s = format!("{} sudoku_resolve infer", remaining),
-    4 => s = format!("{} clean by tuple", remaining),
-    5 => s = format!("{} clean by Q Contrain", remaining),
-    _ => println!("Not implemented"),
+pub fn _read_board() -> [[SudokuCell; 9]; 9] {
+  let mut board = create_board();
+  let stdin = io::stdin();
+  let mut read_lines = 0;
+  while read_lines != 9 {
+    let _ = io::stdout().flush();
+    let line = stdin.lock().lines().next().unwrap().unwrap();
+    process_input_line(&mut board, line, read_lines);
+    read_lines += 1;
   }
+  check_valid_sudoku(board).unwrap();
+  return board;
+}
+
+pub fn print_and_wait(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, remaining: i32, n_step: u8) {
+  let s = match n_step {
+    1 => format!("{} clear board", remaining),
+    2 => format!("{} sudoku_resolve direct", remaining),
+    3 => format!("{} sudoku_resolve infer", remaining),
+    4 => format!("{} clean by tuple", remaining),
+    5 => format!("{} clean by Q Contrain", remaining),
+    _ => format!("{}", remaining),
+  };
+
   if n_step != 0 {
     print_full_board_info(board, n, d, s);
     println!("waiting");

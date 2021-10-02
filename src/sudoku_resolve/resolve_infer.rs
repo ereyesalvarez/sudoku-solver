@@ -1,3 +1,4 @@
+use crate::sudoku_resolve::utils_clear::clean_by_position;
 use crate::sudoku_types::SudokuCell;
 use crate::sudoku_util::set_guess;
 
@@ -40,10 +41,12 @@ pub fn resolve_infer(board: &mut [[SudokuCell; 9]; 9]) {
         }
       }
       if found_in_row && unique_in_row {
-        set_guess(board, (n + 1) as u8, z, position_row)
+        set_guess(board, (n + 1) as u8, z, position_row);
+        clean_by_position(z, position_row, board);
       }
       if found_in_col && unique_in_col {
-        set_guess(board, (n + 1) as u8, position_col, z)
+        set_guess(board, (n + 1) as u8, position_col, z);
+        clean_by_position(position_col, z, board);
       }
     }
     // comprobar los quartos:
@@ -73,7 +76,8 @@ pub fn resolve_infer(board: &mut [[SudokuCell; 9]; 9]) {
         }
       }
       if found && unique {
-        set_guess(board, (n + 1) as u8, position_x, position_y)
+        set_guess(board, (n + 1) as u8, position_x, position_y);
+        clean_by_position(position_x, position_y, board);
       }
     }
   }

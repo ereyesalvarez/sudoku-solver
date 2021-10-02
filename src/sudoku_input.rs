@@ -1,24 +1,9 @@
-use std::io::{self, BufRead, Write};
+use std::io::{self};
 use std::io::Error;
 use std::io::ErrorKind;
 
-use crate::sudoku_process::create_board;
 use crate::sudoku_types::SudokuCell;
 use crate::sudoku_util::set_val;
-
-pub fn _read_board() -> [[SudokuCell; 9]; 9] {
-  let mut board = create_board();
-  let stdin = io::stdin();
-  let mut read_lines = 0;
-  while read_lines != 9 {
-    let _ = io::stdout().flush();
-    let line = stdin.lock().lines().next().unwrap().unwrap();
-    process_input_line(&mut board, line, read_lines);
-    read_lines += 1;
-  }
-  check_valid_sudoku(board).unwrap();
-  return board;
-}
 
 pub fn process_input_line(arr: &mut [[SudokuCell; 9]; 9], input: String, row: usize) {
   let split = input.split(" ");

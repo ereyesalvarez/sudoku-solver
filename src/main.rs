@@ -7,6 +7,7 @@ mod sudoku_util;
 mod sudoku_gui;
 mod sudoku_types;
 mod sudoku_test;
+mod sudoku_io;
 
 fn main() {
   sudoku_game::play();

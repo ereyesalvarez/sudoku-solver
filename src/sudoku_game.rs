@@ -13,6 +13,7 @@ pub enum SudokuStep {
   ResolveDirect,
   ResolveInfer,
   ClearByQuarterConstrain,
+  CleanHide
 }
 
 pub fn play() {
@@ -22,6 +23,7 @@ pub fn play() {
   let mut steps = 0;
   let mut d = Duration::from_secs(0);
   d += do_complete_step(&mut board, steps, d, SudokuStep::ClearBoard, opt_print_steps);
+  d += do_complete_step(&mut board, steps, d, SudokuStep::ResolveDirect, opt_print_steps);
   loop {
     let remaining = is_finish(board);
     check_valid_sudoku(board).unwrap();
@@ -31,15 +33,19 @@ pub fn play() {
     }
     d = play_step(&mut board, steps, d, opt_print_steps);
     steps += 1;
+    if steps > 100 {
+      print_full_board_info(board, steps, d, format!("LOOSE!!!"));
+      break
+    }
   }
 }
 
 fn play_step(board: &mut [[SudokuCell; 9]; 9], step: isize, mut d: Duration, opt_print_steps: bool) -> Duration {
-  d += do_complete_step(board, step, d, SudokuStep::ResolveDirect, opt_print_steps);
   d += do_complete_step(board, step, d, SudokuStep::ResolveInfer, opt_print_steps);
   d += do_complete_step(board, step, d, SudokuStep::ClearBoard, opt_print_steps);
   d += do_complete_step(board, step, d, SudokuStep::ClearByTuple, opt_print_steps);
   d += do_complete_step(board, step, d, SudokuStep::ClearByQuarterConstrain, opt_print_steps);
+  d += do_complete_step(board, step, d, SudokuStep::CleanHide, opt_print_steps);
   return d;
 }
 
@@ -51,6 +57,7 @@ fn do_complete_step(board: &mut [[SudokuCell; 9]; 9], n: isize, d: Duration, n_s
     SudokuStep::ResolveDirect => i = 3,
     SudokuStep::ResolveInfer => i = 4,
     SudokuStep::ClearByQuarterConstrain => i = 5,
+    SudokuStep::CleanHide => i = 5,
 
   }
   let d1 = do_step(board, i);
@@ -69,6 +76,7 @@ fn do_step(board: &mut [[SudokuCell; 9]; 9], n_step: u8) -> Duration {
     3 => sudoku_resolve::resolve_infer(board),
     4 => sudoku_resolve::clean_by_tuples(board),
     5 => sudoku_resolve::clean_by_quarter_constrain(board),
+    6 => sudoku_resolve::clear_hide(board),
     _ => println!("Not implemented"),
   }
   return now.elapsed();

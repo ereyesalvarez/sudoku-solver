@@ -1,3 +1,4 @@
+use crate::sudoku_resolve::utils_clear::clean_by_position;
 use crate::sudoku_types::SudokuCell;
 use crate::sudoku_util::set_guess;
 
@@ -17,6 +18,7 @@ pub fn resolve_direct(board: &mut [[SudokuCell; 9]; 9]) {
       }
       if keep && last != 99 {
         set_guess(board, (last + 1) as u8, x, y);
+        clean_by_position(x, y, board);
       }
     }
   }

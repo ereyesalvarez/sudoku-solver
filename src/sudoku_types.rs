@@ -11,3 +11,18 @@ pub enum SudokuCellType {
   Fixed,
   Guess,
 }
+
+#[derive(PartialEq, Eq, Hash)]
+pub struct PairTuple {
+  pub x: usize,
+  pub y: usize
+}
+
+impl SudokuCell {
+  pub(crate) fn is_filled(&self) -> bool {
+    !self.is_empty()
+  }
+  pub(crate) fn is_empty(&self) -> bool {
+    self.cell_type == SudokuCellType::Empty
+  }
+}
