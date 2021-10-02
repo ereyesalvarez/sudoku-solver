@@ -9,6 +9,7 @@ mod clear_by_constrain;
 mod resolve_util;
 mod clean_hide;
 mod utils_clear;
+mod pointing_pair;
 
 pub fn resolve_infer(board: &mut [[SudokuCell; 9]; 9]){
   resolve_infer::resolve_infer(board);

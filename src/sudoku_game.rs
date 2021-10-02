@@ -4,7 +4,7 @@ use std::time::Duration;
 use crate::{sudoku_mock, sudoku_resolve};
 use crate::sudoku_gui::{print_and_wait, print_full_board_info, print_intro};
 use crate::sudoku_input::check_valid_sudoku;
-use crate::sudoku_resolve::{is_finish};
+use crate::sudoku_resolve::is_finish;
 use crate::sudoku_types::SudokuCell;
 
 pub enum SudokuStep {
@@ -13,7 +13,7 @@ pub enum SudokuStep {
   ResolveDirect,
   ResolveInfer,
   ClearByQuarterConstrain,
-  CleanHide
+  CleanHide,
 }
 
 pub fn play() {
@@ -35,7 +35,7 @@ pub fn play() {
     steps += 1;
     if steps > 100 {
       print_full_board_info(board, steps, d, format!("LOOSE!!!"));
-      break
+      break;
     }
   }
 }
@@ -57,8 +57,7 @@ fn do_complete_step(board: &mut [[SudokuCell; 9]; 9], n: isize, d: Duration, n_s
     SudokuStep::ResolveDirect => i = 3,
     SudokuStep::ResolveInfer => i = 4,
     SudokuStep::ClearByQuarterConstrain => i = 5,
-    SudokuStep::CleanHide => i = 5,
-
+    SudokuStep::CleanHide => i = 6,
   }
   let d1 = do_step(board, i);
   if print {

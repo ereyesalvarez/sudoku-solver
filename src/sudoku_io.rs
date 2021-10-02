@@ -14,7 +14,6 @@ pub fn read_sudoku_from_file(path: String) -> [[SudokuCell; 9]; 9] {
   }
   let contents = fs::read_to_string(path)
     .expect("Something went wrong reading the file");
-  println!("{}", contents);
   return read_sudoku_from_string(contents);
 }
 
