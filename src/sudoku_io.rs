@@ -1,11 +1,10 @@
-use std::fs;
-use crate::sudoku_input::process_input_line;
-use crate::sudoku_process::create_board;
-use crate::sudoku_types::SudokuCell;
+use std::{fs, io};
+use std::io::BufRead;
+use crate::sudoku_types::{SudokuBoard, SudokuCell};
 
 use std::path::Path;
 
-pub fn read_sudoku_from_file(path: String) -> [[SudokuCell; 9]; 9] {
+pub fn read_board_from_file(path: String) -> SudokuBoard {
   println!("going to read file");
   if !Path::new(path.as_str()).exists() {
     println!("file {} not exist", path);
@@ -14,17 +13,33 @@ pub fn read_sudoku_from_file(path: String) -> [[SudokuCell; 9]; 9] {
   }
   let contents = fs::read_to_string(path)
     .expect("Something went wrong reading the file");
-  return read_sudoku_from_string(contents);
+  return read_board_from_string(contents);
 }
 
-pub fn read_sudoku_from_string(input: String) -> [[SudokuCell; 9]; 9] {
-  let mut board = create_board();
+pub fn read_board_from_string(input: String) -> SudokuBoard {
+  let mut board = SudokuBoard::new();
   let split = input.split("\n");
-  let mut col = 0;
+  let mut row = 0;
   for s in split {
-    process_input_line(&mut board, String::from(s), col);
-    col += 1;
+    process_input_line(&mut board, String::from(s), row);
+    row += 1;
   }
   return board;
 }
 
+pub fn process_input_line(board: &mut SudokuBoard, input: String, row: usize) {
+  let split = input.split(" ");
+  let mut col = 0;
+  for s in split {
+    if s == "x" || s == "" {} else {
+      let number: usize = s.parse().expect("Not a number!");
+      board.set_fixed(number, row, col);
+    }
+    col += 1;
+  }
+}
+
+pub fn wait_press(){
+  let stdin = io::stdin();
+  stdin.lock().lines().next().unwrap().unwrap();
+}

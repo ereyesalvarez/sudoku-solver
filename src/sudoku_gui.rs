@@ -4,124 +4,85 @@ use std::prelude::v1::String;
 use std::time::Duration;
 
 use owo_colors::OwoColorize;
+use crate::board_print::{print_board, print_compare_board};
 
-use crate::sudoku_input::{check_valid_sudoku, process_input_line};
-use crate::sudoku_process::create_board;
-use crate::sudoku_types::{SudokuCell, SudokuCellType};
+use crate::sudoku_io::{process_input_line, wait_press};
+use crate::sudoku_types::{SudokuBoard, SudokuCell, SudokuCellType, SudokuOptions};
+use crate::sudoku_validate::check_valid_sudoku;
 
-pub fn _read_board() -> [[SudokuCell; 9]; 9] {
-  let mut board = create_board();
+pub fn read_line_from_command_line(stdin: &io::Stdin, flush: bool) -> String {
+  if flush {
+    let _ = io::stdout().flush();
+  }
+  return stdin.lock().lines().next().unwrap().unwrap();
+}
+
+pub fn _read_board() -> SudokuBoard {
+  let mut board = SudokuBoard::new();
   let stdin = io::stdin();
   let mut read_lines = 0;
   while read_lines != 9 {
-    let _ = io::stdout().flush();
-    let line = stdin.lock().lines().next().unwrap().unwrap();
+    let line = read_line_from_command_line(&stdin, true);
     process_input_line(&mut board, line, read_lines);
     read_lines += 1;
   }
-  check_valid_sudoku(board).unwrap();
+  let (valid, invalid_x, invalid_y) = check_valid_sudoku(board);
+  if !valid {
+    panic!("Invalid sudoku on pos x: {}, y: {}", invalid_x, invalid_y);
+  }
   return board;
 }
 
-pub fn print_and_wait(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, remaining: i32, n_step: u8) {
-  let s = match n_step {
-    1 => format!("{} clear board", remaining),
-    2 => format!("{} sudoku_resolve direct", remaining),
-    3 => format!("{} sudoku_resolve infer", remaining),
-    4 => format!("{} clean by tuple", remaining),
-    5 => format!("{} clean by Q Contrain", remaining),
-    _ => format!("{}", remaining),
-  };
-
-  if n_step != 0 {
-    print_full_board_info(board, n, d, s);
-    println!("waiting");
-    let stdin = io::stdin();
-    stdin.lock().lines().next().unwrap().unwrap();
-  }
-}
-
-pub fn print_full_board_info(board: [[SudokuCell; 9]; 9], n: isize, d: Duration, data: String) {
-  print!("{esc}c", esc = 27 as char);
-  print_full_board(board);
-  print_inf(n, d, data);
-}
-
-pub fn print_intro() {
-  println!("{}", "Bienvenido al sudoku resolutor");
+pub(crate) fn print_load_instructions() {
   println!("{}", "Introduce los numeros separados por espacios".green());
   println!("{}", "Conjuntos de dos o más espacios  provocaran error.".green());
   println!("{}", "Para indicar un numero no conocido indicar con x.".green());
   println!("{}", "Pulsa enter para saltar de linea, se esperan 9 lineas.".green());
 }
 
-fn print_inf(n: isize, d: Duration, data: String) {
-  println!("step: {}, process_duration: {} - {}", n, d.as_millis(), data)
+pub(crate) fn print_intro() {
+  println!("{}", "Bienvenido al sudoku resolutor");
 }
 
-fn print_full_board(board: [[SudokuCell; 9]; 9]) {
-  for row in 0..9 {
-    if row == 0 || row == 3 || row == 6 {
-      print_board_line(true);
-    } else {
-      print_board_line(false);
-    }
-    for part in 0..3 {
-      for col in 0..9 {
-        if col == 0 || col == 3 || col == 6 {
-          print!("||")
-        } else {
-          print!("|")
-        }
-        print_full_cell(board[row][col], part);
-      }
-      println!("||");
-    }
-  }
-  print_board_line(true);
+pub(crate) fn ask_for_options() -> SudokuOptions {
+  let opt = SudokuOptions {
+    print_steps: true,
+    print_candidates: true,
+    load_example: false,
+    wait_press: false,
+  };
+  println!("A continuación se le preguntará por las opciones de juego. (enter dara un valor por defecto)");
+  println!("¿Desea cargar un sudoku de ejemplo de los ficheros de ejemplo y/n?");
+  return opt;
 }
 
-fn print_full_cell(cell: SudokuCell, part: u8) {
-  let print_options = true;
-  if cell.cell_type == SudokuCellType::Fixed || cell.cell_type == SudokuCellType::Guess {
-    if part == 0 || part == 2 {
-      print!("     ")
-    } else {
-      if cell.cell_type == SudokuCellType::Fixed {
-        print!("  {}  ", cell.value.purple())
-      } else {
-        print!("  {}  ", cell.value.yellow())
-      }
-    }
-  } else {
-    let init: usize = (part * 3) as usize;
-    let mut a: String = String::from(" ");
-    if cell.possibles[init] {
-      a = (init + 1).to_string();
-    }
-    let mut b: String = String::from(" ");
-    if cell.possibles[init + 1] {
-      b = (init + 2).to_string();
-    }
-    let mut c: String = String::from(" ");
-    if cell.possibles[init + 2] {
-      c = (init + 3).to_string();
-    }
-    if print_options {
-      let string_formatted = format!("{} {} {}", a, b, c);
-      print!("{}", string_formatted.cyan())
-    } else {
-      let string_formatted = format!("     ");
-      print!("{}", string_formatted.cyan())
-    }
+
+pub fn print_full_board_clean_and_info(board: SudokuBoard, opt: SudokuOptions, iteration: isize, remaining: isize) {
+  print!("{esc}c", esc = 27 as char);
+  print_board(board, opt);
+  print_info_line(iteration, remaining);
+  if opt.wait_press {
+    wait_press();
   }
 }
 
-fn print_board_line(hard: bool) {
-  if hard {
-    println!("++=====+=====+=====++=====+=====+=====++=====+=====+=====++");
-  } else {
-    println!("++-----+-----+-----++-----+-----+-----++-----+-----+-----++");
+pub fn print_full_board_clean(board: SudokuBoard, opt: SudokuOptions) {
+  print!("{esc}c", esc = 27 as char);
+  print_board(board, opt);
+  if opt.wait_press {
+    wait_press();
   }
 }
 
+pub fn print_compare_board_clean(board: SudokuBoard, prev: SudokuBoard, opt: SudokuOptions) {
+  print!("{esc}c", esc = 27 as char);
+  print_compare_board(board, prev, opt);
+  if opt.wait_press {
+    wait_press();
+  }
+}
+
+
+fn print_info_line(iteration: isize, remaining: isize) {
+  println!("iteration: {}, remaining cells {}", iteration, remaining);
+}

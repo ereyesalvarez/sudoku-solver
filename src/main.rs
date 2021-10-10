@@ -1,16 +1,17 @@
-mod sudoku_input;
-mod sudoku_process;
+mod sudoku_validate;
 mod sudoku_game;
 mod sudoku_mock;
-mod sudoku_resolve;
-mod sudoku_util;
 mod sudoku_gui;
 mod sudoku_types;
-mod sudoku_test;
 mod sudoku_io;
+mod resolve;
+mod board_util;
+mod solve_steps;
+mod board_compare;
+mod board_print;
 
 fn main() {
-  sudoku_game::play();
+  sudoku_game::game();
 }
 
 
