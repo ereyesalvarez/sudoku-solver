@@ -1,6 +1,7 @@
 use crate::board_util::get_candidates_from_cell;
 use crate::sudoku_types::SudokuBoard;
 
+/// One candidate only appear one time in a row or col
 pub(super) fn pinned(mut board: SudokuBoard) -> (SudokuBoard, isize) {
   // Pinned for column && row
   let mut hits = 0;

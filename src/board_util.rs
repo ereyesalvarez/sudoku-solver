@@ -1,5 +1,12 @@
 use crate::sudoku_types::{SudokuCell, SudokuCellType};
 
+pub(crate) fn get_x_y_from_box_and_pos(n_box: usize, position: usize) -> (usize, usize) {
+  // 0 - 8
+  let x = (n_box % 3 * 3) + position % 3;
+  let y = (n_box / 3 * 3) + position / 3;
+  (x, y)
+}
+
 pub fn get_range_from_pos(pos: usize) -> [usize; 3] {
   if pos < 3 {
     return [0, 1, 2];

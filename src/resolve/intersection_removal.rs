@@ -9,3 +9,4 @@ Ademas podemos eliminar de la caja las los numeros de las otras filas/columnas.
 /**
 Si un numero solo aparece en una fila o columna
 */
+

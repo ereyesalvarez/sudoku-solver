@@ -49,7 +49,7 @@ pub(crate) fn ask_for_options() -> SudokuOptions {
     print_steps: true,
     print_candidates: true,
     load_example: false,
-    wait_press: false,
+    wait_press: true,
   };
   println!("A continuación se le preguntará por las opciones de juego. (enter dara un valor por defecto)");
   println!("¿Desea cargar un sudoku de ejemplo de los ficheros de ejemplo y/n?");
@@ -75,7 +75,6 @@ pub fn print_full_board_clean(board: SudokuBoard, opt: SudokuOptions) {
 }
 
 pub fn print_compare_board_clean(board: SudokuBoard, prev: SudokuBoard, opt: SudokuOptions) {
-  print!("{esc}c", esc = 27 as char);
   print_compare_board(board, prev, opt);
   if opt.wait_press {
     wait_press();

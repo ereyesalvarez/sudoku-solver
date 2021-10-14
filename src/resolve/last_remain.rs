@@ -4,7 +4,7 @@ use crate::sudoku_types::{Position, SudokuBoard};
 pub(super) fn last_remaining(mut board: SudokuBoard) -> (SudokuBoard, isize) {
   let (board, hits) = last_remaining_in_line(board);
   let (board, hits2) = last_remaining_in_box(board);
-  return (board, hits2);
+  return (board, hits + hits2);
 }
 
 fn last_remaining_in_box(mut board: SudokuBoard) -> (SudokuBoard, isize) {
@@ -35,7 +35,6 @@ fn last_remaining_in_box(mut board: SudokuBoard) -> (SudokuBoard, isize) {
   }
   return (board, hits);
 }
-
 
 /// El unico en una fila o en una columna
 fn last_remaining_in_line(mut board: SudokuBoard) -> (SudokuBoard, isize) {

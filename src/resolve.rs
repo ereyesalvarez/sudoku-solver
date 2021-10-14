@@ -1,4 +1,4 @@
-use crate::resolve::naked::{naked_pair, naked_single};
+use crate::resolve::naked::{naked_tuple, naked_single};
 use crate::sudoku_types::SudokuBoard;
 
 mod naked;
@@ -23,6 +23,6 @@ pub fn naked_single_resolve(mut board: SudokuBoard) -> (SudokuBoard, isize) {
 }
 
 pub fn naked_tuple_resolve(mut board: SudokuBoard) -> (SudokuBoard, isize) {
-  return naked_pair(board);
+  return naked_tuple(board);
 }
 
