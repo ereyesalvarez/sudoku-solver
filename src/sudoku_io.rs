@@ -32,6 +32,7 @@ pub fn process_input_line(board: &mut SudokuBoard, input: String, row: usize) {
   let mut col = 0;
   for s in split {
     if s == "x" || s == "" {} else {
+      println!("{}", s);
       let number: usize = s.parse().expect("Not a number!");
       board.set_fixed(number, row, col);
     }

@@ -44,6 +44,7 @@ pub fn get_candidates_from_cell(cell: SudokuCell) -> Vec<usize> {
   return vector;
 }
 
+/// recibe una celda y un vector si la celda contiene solo los numeros del vector devuelve true
 pub fn contains_candidates_in_list(cell: SudokuCell, vector: &Vec<usize>) -> bool {
   let mut response = true;
   if cell.cell_type != SudokuCellType::Empty {
