@@ -1,12 +1,8 @@
-use std::time;
-use std::time::Duration;
-
-use crate::sudoku_mock;
 use crate::solve_steps::{do_step, StepEnum};
 use crate::sudoku_gui::{ask_for_options, print_full_board_clean, print_full_board_clean_and_info, print_intro};
 use crate::sudoku_mock::fake;
-use crate::sudoku_types::{SudokuBoard, SudokuCell, SudokuOptions};
-use crate::sudoku_validate::{check_valid_sudoku, get_remaining_cells};
+use crate::sudoku_types::{SudokuBoard, SudokuOptions};
+use crate::sudoku_validate::{check_valid_sudoku};
 
 pub fn game() {
     let opt = start_game();
@@ -21,7 +17,7 @@ pub fn game() {
             repeat_step = false;
         }
     }
-    let remaining = get_remaining_cells(board);
+    let remaining =board.get_remaining_cells();
     print_full_board_clean_and_info(board, opt, iteration, remaining);
     let (valid, invalid_x, invalid_y) = check_valid_sudoku(board);
     if !valid {
@@ -32,11 +28,13 @@ pub fn game() {
     }
 }
 
-pub fn make_iterate(mut board: SudokuBoard, opt: SudokuOptions) -> SudokuBoard {
+pub fn make_iterate(board: SudokuBoard, opt: SudokuOptions) -> SudokuBoard {
     let board = do_step(board, opt, StepEnum::Pinned);
     let board = do_step(board, opt, StepEnum::LastRemain);
     let board = do_step(board, opt, StepEnum::NakedSingle);
     let board = do_step(board, opt, StepEnum::Naked);
+    let board = do_step(board, opt, StepEnum::Hidden);
+    let board = do_step(board, opt, StepEnum::IntersectionRemove);
     return board;
 }
 

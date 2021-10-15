@@ -1,9 +1,4 @@
-use std::io::{self};
-use std::io::Error;
-use std::io::ErrorKind;
-
-use crate::sudoku_mock::fake;
-use crate::sudoku_types::{SudokuBoard, SudokuCell, SudokuCellType};
+use crate::sudoku_types::{SudokuBoard};
 
 pub fn check_valid_sudoku(board: SudokuBoard) -> (bool, usize, usize) {
   // Comprueba que en las row solo se encuentre un valor de cada numero.
@@ -56,16 +51,4 @@ fn check_valid_number(value: u8, find: &mut [bool; 9]) -> bool {
     find[position] = true;
   }
   return true;
-}
-
-pub fn get_remaining_cells(board: SudokuBoard) -> isize {
-  let mut remaining = 0;
-  for row in board.board {
-    for cell in row {
-      if cell.is_empty() {
-        remaining += 1;
-      }
-    }
-  }
-  return remaining;
 }

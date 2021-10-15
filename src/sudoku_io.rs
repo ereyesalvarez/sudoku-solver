@@ -1,6 +1,6 @@
 use std::{fs, io};
 use std::io::BufRead;
-use crate::sudoku_types::{SudokuBoard, SudokuCell};
+use crate::sudoku_types::{SudokuBoard};
 
 use std::path::Path;
 
@@ -32,7 +32,6 @@ pub fn process_input_line(board: &mut SudokuBoard, input: String, row: usize) {
   let mut col = 0;
   for s in split {
     if s == "x" || s == "" {} else {
-      println!("{}", s);
       let number: usize = s.parse().expect("Not a number!");
       board.set_fixed(number, row, col);
     }

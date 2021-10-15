@@ -1,13 +1,12 @@
 use std::io;
 use std::io::{BufRead, Write};
 use std::prelude::v1::String;
-use std::time::Duration;
 
 use owo_colors::OwoColorize;
 use crate::board_print::{print_board, print_compare_board};
 
 use crate::sudoku_io::{process_input_line, wait_press};
-use crate::sudoku_types::{SudokuBoard, SudokuCell, SudokuCellType, SudokuOptions};
+use crate::sudoku_types::{SudokuBoard, SudokuOptions};
 use crate::sudoku_validate::check_valid_sudoku;
 
 pub fn read_line_from_command_line(stdin: &io::Stdin, flush: bool) -> String {

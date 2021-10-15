@@ -21,6 +21,12 @@ pub enum SudokuCellType {
     Guess,
 }
 
+#[derive(Debug)]
+pub(crate) enum LineType {
+    Row,
+    Col
+}
+
 #[derive(PartialEq, Eq, Hash)]
 pub struct Position {
     pub x: usize,
@@ -102,6 +108,19 @@ impl SudokuBoard {
         let x = (n_box % 3 * 3) + position % 3;
         let y = (n_box / 3 * 3) + position / 3;
         self.board[x][y]
+    }
+
+
+    pub(crate) fn get_remaining_cells(&self) -> isize {
+        let mut remaining = 0;
+        for row in self.board {
+            for cell in row {
+                if cell.is_empty() {
+                    remaining += 1;
+                }
+            }
+        }
+        return remaining;
     }
 }
 
